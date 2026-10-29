@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Ambient Light test page</title>
+  <style>
+    body { margin: 0; background: #111; color: #ddd; font: 15px system-ui, sans-serif; }
+    main { width: 760px; margin: 0 auto; padding: 260px 0 1200px; }
+    video { display: block; background: #000; }
+    #main { width: 640px; height: 360px; }
+    #boxed { width: 640px; height: 480px; margin-top: 400px; }
+    .bar { display: flex; gap: 12px; margin: 8px 0; }
+    a { color: #9cf; }
+    .thumbs { display: flex; gap: 10px; margin-top: 40px; }
+    .thumbs a { display: block; }
+    .thumbs video { width: 300px; height: 169px; }
+    #tiny { width: 120px; height: 68px; }
+  </style>
+</head>
+<body>
+  <main>
+    <a id="near" href="#near">Link right above the player</a>
+    <video id="main" muted playsinline></video>
+    <div class="bar"><button id="btn">Button under the player</button></div>
+    <div class="thumbs">
+      <a href="#preview"><video id="preview" muted playsinline loop></video></a>
+      <video id="tiny" muted playsinline></video>
+    </div>
+    <video id="boxed" muted playsinline></video>
+  </main>
+  <script>
+    // Each video is fed by an animated canvas so no media files are needed.
+    function feed(video, w, h, hueBase) {
+      const c = document.createElement('canvas');
+      c.width = w; c.height = h;
+      const g = c.getContext('2d');
+      let t = 0;
+      setInterval(() => {
+        t++;
+        const grad = g.createLinearGradient(0, 0, w, 0);
+        grad.addColorStop(0, `hsl(${hueBase + t * 2}, 90%, 55%)`);
+        grad.addColorStop(1, `hsl(${hueBase + 180 + t * 2}, 90%, 55%)`);
+        g.fillStyle = grad;
+        g.fillRect(0, 0, w, h);
+        g.fillStyle = '#fff';
+        g.fillRect((t * 6) % w, h / 2 - 10, 40, 20);
+      }, 33);
+      video.srcObject = c.captureStream(30);
+    }
+    feed(document.getElementById('main'), 320, 180, 0);
+    feed(document.getElementById('preview'), 320, 180, 120);
+    feed(document.getElementById('tiny'), 320, 180, 240);
+    feed(document.getElementById('boxed'), 320, 180, 60); // 16:9 in a 4:3 box -> letterboxed
+  </script>
+</body>
+</html>

@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Ambient Light</title>
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <header>
+    <img src="icons/32.png" width="24" height="24" alt="">
+    <h1 id="master-label">Ambient Light</h1>
+    <label class="switch">
+      <input type="checkbox" id="enabled" role="switch" aria-labelledby="master-label">
+      <span aria-hidden="true"></span>
+    </label>
+  </header>
+
+  <main id="controls">
+    <div class="row site">
+      <div>
+        <div class="label" id="site-label">Enable on this site</div>
+        <div class="sub" id="site-name">…</div>
+      </div>
+      <label class="switch">
+        <input type="checkbox" id="site" role="switch" aria-labelledby="site-label" aria-describedby="site-name">
+        <span aria-hidden="true"></span>
+      </label>
+    </div>
+
+    <div class="slider">
+      <div class="row"><label for="intensity">Intensity</label><output for="intensity" id="intensity-out"></output></div>
+      <input type="range" id="intensity" min="10" max="100" step="1">
+    </div>
+    <div class="slider">
+      <div class="row"><label for="blur">Blur</label><output for="blur" id="blur-out"></output></div>
+      <input type="range" id="blur" min="20" max="120" step="1">
+    </div>
+    <div class="slider">
+      <div class="row"><label for="size">Glow size</label><output for="size" id="size-out"></output></div>
+      <input type="range" id="size" min="40" max="300" step="5">
+    </div>
+
+    <div class="row">
+      <label for="style">Style</label>
+      <select id="style">
+        <option value="glow">Glow</option>
+        <option value="solid">Solid</option>
+      </select>
+    </div>
+    <p class="hint" id="style-hint"></p>
+  </main>
+
+  <footer>The glow hides automatically in fullscreen.</footer>
+
+  <script src="settings.js"></script>
+  <script src="popup.js"></script>
+</body>
+</html>
